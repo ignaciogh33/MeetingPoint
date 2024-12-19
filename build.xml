@@ -1,26 +1,34 @@
-<project name="JadeLab2" default="run" basedir=".">
+<project name="MeetingPoint" default="run" basedir=".">
+  <!-- Propiedades del proyecto -->
   <property name="src" location="src"/>
   <property name="build" location="build"/>
+  <property name="lib" location="jade/lib"/>
 
+  <!-- Tarea para inicializar (crear carpetas) -->
   <target name="init">
     <mkdir dir="${build}"/>
   </target>
 
-  <target name="compile" depends="init" description="compile the source " >
+  <!-- Tarea para compilar el código fuente -->
+  <target name="compile" depends="init" description="Compile the source">
     <javac srcdir="${src}" destdir="${build}">
-      <classpath location="jade/lib/jade.jar" />
+      <classpath>
+        <pathelement location="${lib}/jade.jar" />
+        <pathelement location="${lib}/jgrapht-core-1.5.2.jar" />
+      </classpath>
     </javac>
   </target>
 
-  <target name="clean" description="clean up" >
+  <!-- Tarea para limpiar los archivos compilados -->
+  <target name="clean" description="Clean up the build directory">
     <delete dir="${build}"/>
-    <delete dir="${dist}"/>
   </target>
 
-  <target name="run" description="create agents" >
-    <java fork="true" classpath="jade/lib/jade.jar;build" classname="jade.Boot">
+  <!-- Tarea para ejecutar los agentes -->
+  <target name="run" depends="compile" description="Run the agents">
+    <java fork="true" classpath="jade/lib/jade.jar;jade/lib/jgrapht-core-1.5.2.jar;build" classname="jade.Boot">
       <arg value="-gui" />
-      <arg value="buyer1:jadelab2.BookBuyerAgent(10000);buyer2:jadelab2.BookBuyerAgent(15000);seller1:jadelab2.BookSellerAgent;seller2:jadelab2.BookSellerAgent" />
+      <arg value="coordinator:Agents.CoordinatorAgent;participant1:Agents.ParticipantAgent;participant2:Agents.ParticipantAgent" />
     </java>
   </target>
 </project>
