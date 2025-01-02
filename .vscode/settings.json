@@ -1,0 +1,7 @@
+{
+  "java.project.outputPath": "build", // Carpeta de salida para los archivos compilados
+  "java.project.sourcePaths": ["src"], // Carpeta donde se encuentran los archivos fuente
+  "java.project.referencedLibraries": [
+    "jade/lib/**/*.jar" // Incluye todos los archivos `.jar` dentro de jade/lib
+  ]
+}
