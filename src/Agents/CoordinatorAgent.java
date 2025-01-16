@@ -7,6 +7,7 @@ import jade.lang.acl.ACLMessage;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
+import org.jheaps.AddressableHeap;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +18,7 @@ public class CoordinatorAgent extends Agent {
     private Map<String, String> agentLocations = new HashMap<>();
 
     protected void setup() {
+        System.out.println("CoordinatorAgent " + getLocalName() + " initialized.");
         cityMap = new CityMap(); // Initialize your city map here.
 
         // Add behavior to collect locations from agents

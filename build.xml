@@ -11,10 +11,11 @@
 
   <!-- Tarea para compilar el código fuente -->
   <target name="compile" depends="init" description="Compile the source">
-    <javac srcdir="${src}" destdir="${build}">
+    <javac srcdir="${src}" destdir="${build}" includeantruntime="false">
       <classpath>
         <pathelement location="${lib}/jade.jar" />
         <pathelement location="${lib}/jgrapht-core-1.5.2.jar" />
+        <pathelement location="jade/lib/jheaps-0.14.jar" />
       </classpath>
     </javac>
   </target>
@@ -26,9 +27,9 @@
 
   <!-- Tarea para ejecutar los agentes -->
   <target name="run" depends="compile" description="Run the agents">
-    <java fork="true" classpath="jade/lib/jade.jar;jade/lib/jgrapht-core-1.5.2.jar;build" classname="jade.Boot">
+    <java fork="true" classpath="jade/lib/jade.jar;jade/lib/jgrapht-core-1.5.2.jar;jade/lib/jheaps-0.14.jar;build" classname="jade.Boot">
       <arg value="-gui" />
-      <arg value="coordinator:Agents.CoordinatorAgent;participant1:Agents.ParticipantAgent;participant2:Agents.ParticipantAgent" />
+        <arg value="coordinator:Agents.CoordinatorAgent;participant1:Agents.ParticipantAgent(Location1);participant2:Agents.ParticipantAgent(Location2)" />
     </java>
   </target>
 </project>

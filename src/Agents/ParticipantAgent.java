@@ -8,6 +8,8 @@ public class ParticipantAgent extends Agent {
     private String location;
 
     protected void setup() {
+        System.out.println("ParticipantAgent " + getLocalName() + " initialized with location: " + location);
+
         location = (String) getArguments()[0]; // Agent's initial location
 
         addBehaviour(new SendLocationBehaviour());
@@ -16,7 +18,7 @@ public class ParticipantAgent extends Agent {
     private class SendLocationBehaviour extends OneShotBehaviour {
         public void action() {
             ACLMessage msg = new ACLMessage(ACLMessage.INFORM);
-            msg.addReceiver(getAID("coordinator")); // Replace with actual coordinator's name
+            msg.addReceiver(new jade.core.AID("coordinator", jade.core.AID.ISLOCALNAME));
             msg.setContent(location);
             send(msg);
         }
