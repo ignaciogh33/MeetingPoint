@@ -29,7 +29,7 @@
   <target name="run" depends="compile" description="Run the agents">
     <java fork="true" classpath="jade/lib/jade.jar;jade/lib/jgrapht-core-1.5.2.jar;jade/lib/jheaps-0.14.jar;build" classname="jade.Boot">
       <arg value="-gui" />
-        <arg value="coordinator:Agents.CoordinatorAgent;participant1:Agents.ParticipantAgent(Location1);participant2:Agents.ParticipantAgent(Location2)" />
+        <arg value="coordinator:Agents.CoordinatorAgent;participant1:Agents.ParticipantAgent(A);participant2:Agents.ParticipantAgent(C)" />
     </java>
   </target>
 </project>
