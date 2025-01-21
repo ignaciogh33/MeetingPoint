@@ -1,0 +1,11 @@
+graph G {
+  A;
+  B;
+  C;
+  D;
+  A -- B [label=8];
+  B -- C [label=65];
+  C -- D [label=69];
+  D -- A [label=35];
+  D -- B [label=20];
+}}
