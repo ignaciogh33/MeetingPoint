@@ -24,7 +24,7 @@ public class ParticipantAgent extends Agent {
     private String location; // Ubicación actual del agente
     private CityMap cityMap; // Mapa de la ciudad
     private Map<String, String> agentLocations = new HashMap<>(); // Mapa de ubicaciones de todos los agentes
-    private int expectedAgents = 2; // Número total de agentes (incluyéndose a sí mismo)
+    private int expectedAgents = 3; // Número total de agentes (incluyéndose a sí mismo)
 
     protected void setup() {
         // Inicializa la ubicación del agente a partir de los argumentos
@@ -38,8 +38,7 @@ public class ParticipantAgent extends Agent {
         }
 
         // Inicializa el mapa de la ciudad
-        cityMap = new CityMap();
-        initializeMap(4, 5);
+        cityMap = CityMap.getInstance(4, 5);
 
         // Guarda su propia ubicación en el mapa
         agentLocations.put(getLocalName(), location);
@@ -55,70 +54,72 @@ public class ParticipantAgent extends Agent {
 
     }
 
-    private void initializeMap(int numNodes, int numEdges) {
-    Random random = new Random();
-    List<String> nodes = new ArrayList<>();
-    List<String[]> edges = new ArrayList<>();
+    // private void initializeMap(int numNodes, int numEdges) {
+    //     private static CityMap instance;
 
-    // Generar nombres de nodos (A, B, C, ...)
-    for (int i = 0; i < numNodes; i++) {
-        nodes.add(String.valueOf((char) ('A' + i)));
-        cityMap.addLocation(nodes.get(i));
-    }
+    //     Random random = new Random();
+    //     List<String> nodes = new ArrayList<>();
+    //     List<String[]> edges = new ArrayList<>();
 
-    // Crear un grafo conectado generando un árbol básico
-    for (int i = 1; i < numNodes; i++) {
-        String node1 = nodes.get(i - 1);
-        String node2 = nodes.get(i);
-        int weight = random.nextInt(100) + 1; // Peso aleatorio entre 1 y 100
-        cityMap.addRoad(node1, node2, weight);
-        edges.add(new String[]{node1, node2, String.valueOf(weight)});
-    }
+    //     // Generar nombres de nodos (A, B, C, ...)
+    //     for (int i = 0; i < numNodes; i++) {
+    //         nodes.add(String.valueOf((char) ('A' + i)));
+    //         cityMap.addLocation(nodes.get(i));
+    //     }
 
-    // Agregar aristas adicionales al grafo
-    int additionalEdges = numEdges - (numNodes - 1);
-    while (additionalEdges > 0) {
-        String node1 = nodes.get(random.nextInt(numNodes));
-        String node2 = nodes.get(random.nextInt(numNodes));
+    //     // Crear un grafo conectado generando un árbol básico
+    //     for (int i = 1; i < numNodes; i++) {
+    //         String node1 = nodes.get(i - 1);
+    //         String node2 = nodes.get(i);
+    //         int weight = random.nextInt(100) + 1; // Peso aleatorio entre 1 y 100
+    //         cityMap.addRoad(node1, node2, weight);
+    //         edges.add(new String[]{node1, node2, String.valueOf(weight)});
+    //     }
 
-        // Evitar bucles y duplicados
-        if (!node1.equals(node2) && edges.stream().noneMatch(edge ->
-                (edge[0].equals(node1) && edge[1].equals(node2)) || (edge[0].equals(node2) && edge[1].equals(node1)))) {
-            int weight = random.nextInt(100) + 1; // Peso aleatorio entre 1 y 100
-            cityMap.addRoad(node1, node2, weight);
-            edges.add(new String[]{node1, node2, String.valueOf(weight)});
-            additionalEdges--;
-        }
-    }
+    //     // Agregar aristas adicionales al grafo
+    //     int additionalEdges = numEdges - (numNodes - 1);
+    //     while (additionalEdges > 0) {
+    //         String node1 = nodes.get(random.nextInt(numNodes));
+    //         String node2 = nodes.get(random.nextInt(numNodes));
 
-    // Generar un archivo DOT para visualizar el grafo
-    generateDotFile("graph.dot", nodes, edges);
+    //         // Evitar bucles y duplicados
+    //         if (!node1.equals(node2) && edges.stream().noneMatch(edge ->
+    //                 (edge[0].equals(node1) && edge[1].equals(node2)) || (edge[0].equals(node2) && edge[1].equals(node1)))) {
+    //             int weight = random.nextInt(100) + 1; // Peso aleatorio entre 1 y 100
+    //             cityMap.addRoad(node1, node2, weight);
+    //             edges.add(new String[]{node1, node2, String.valueOf(weight)});
+    //             additionalEdges--;
+    //         }
+    //     }
 
-    // Verificar el resultado (opcional)
-    System.out.println("Generated nodes: " + nodes);
-    System.out.println("Generated edges: " + edges);
-}
+    //     // Generar un archivo DOT para visualizar el grafo
+    //     generateDotFile("graph.dot", nodes, edges);
 
-private void generateDotFile(String fileName, List<String> nodes, List<String[]> edges) {
-    try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-        writer.write("graph G {\n");
+    //     // Verificar el resultado (opcional)
+    //     System.out.println("Generated nodes: " + nodes);
+    //     System.out.println("Generated edges: " + edges);
+    // }
 
-        // Agregar nodos
-        for (String node : nodes) {
-            writer.write("  " + node + ";\n");
-        }
+    // private void generateDotFile(String fileName, List<String> nodes, List<String[]> edges) {
+    //     try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+    //         writer.write("graph G {\n");
 
-        // Agregar aristas con pesos
-        for (String[] edge : edges) {
-            writer.write("  " + edge[0] + " -- " + edge[1] + " [label=" + edge[2] + "];\n");
-        }
+    //         // Agregar nodos
+    //         for (String node : nodes) {
+    //             writer.write("  " + node + ";\n");
+    //         }
 
-        writer.write("}");
-        System.out.println("Graph written to " + fileName);
-    } catch (IOException e) {
-        System.err.println("Error writing graph to file: " + e.getMessage());
-    }
-}
+    //         // Agregar aristas con pesos
+    //         for (String[] edge : edges) {
+    //             writer.write("  " + edge[0] + " -- " + edge[1] + " [label=" + edge[2] + "];\n");
+    //         }
+
+    //         writer.write("}");
+    //         System.out.println("Graph written to " + fileName);
+    //     } catch (IOException e) {
+    //         System.err.println("Error writing graph to file: " + e.getMessage());
+    //     }
+    // }
     // Envía la ubicación del agente a todos los demás después de un retraso de 3 segundos
     private class BroadcastLocationBehaviour extends OneShotBehaviour {
         public void action() {
