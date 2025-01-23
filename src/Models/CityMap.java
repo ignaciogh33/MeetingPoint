@@ -55,12 +55,11 @@ public class CityMap {
             }
         }
 
+        generateDotFile("graph.dot", nodes, edges);
+
         // Opcional: Verificar el resultado
         System.out.println("Generated nodes: " + nodes);
         System.out.println("Generated edges: " + edges);
-
-        //Generar un archivo DOT para visualizar el grafo
-        generateDotFile("graph.dot", nodes, edges);
     }
 
     public static synchronized CityMap getInstance(int numNodes, int numEdges) {
@@ -86,23 +85,23 @@ public class CityMap {
     }
 
     private void generateDotFile(String fileName, List<String> nodes, List<String[]> edges) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            writer.write("graph G {\n");
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+        writer.write("graph G {\n");
 
-            // Agregar nodos
-            for (String node : nodes) {
-                writer.write("  " + node + ";\n");
-            }
-
-            // Agregar aristas con pesos
-            for (String[] edge : edges) {
-                writer.write("  " + edge[0] + " -- " + edge[1] + " [label=" + edge[2] + "];\n");
-            }
-
-            writer.write("}");
-            System.out.println("Graph written to " + fileName);
-        } catch (IOException e) {
-            System.err.println("Error writing graph to file: " + e.getMessage());
+        // Agregar nodos
+        for (String node : nodes) {
+            writer.write("  " + node + ";\n");
         }
+
+        // Agregar aristas con pesos
+        for (String[] edge : edges) {
+            writer.write("  " + edge[0] + " -- " + edge[1] + " [label=" + edge[2] + "];\n");
+        }
+
+        writer.write("}");
+        System.out.println("Graph written to " + fileName);
+    } catch (IOException e) {
+        System.err.println("Error writing graph to file: " + e.getMessage());
     }
+}
 }

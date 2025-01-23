@@ -3,9 +3,15 @@ graph G {
   B;
   C;
   D;
-  A -- B [label=59];
-  B -- C [label=12];
-  C -- D [label=14];
-  D -- B [label=38];
-  A -- C [label=61];
+  E;
+  A -- B [label=81];
+  B -- C [label=87];
+  C -- D [label=95];
+  D -- E [label=92];
+  B -- D [label=44];
+  E -- C [label=12];
+  A -- D [label=14];
+  C -- A [label=92];
+  B -- E [label=2];
+  A -- E [label=46];
 }
