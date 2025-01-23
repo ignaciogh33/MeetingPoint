@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import org.jgrapht.Graph;
 import org.jgrapht.graph.DefaultWeightedEdge;
@@ -24,6 +25,7 @@ public class CityMap {
 
         // Generar nombres de nodos (A, B, C, ...)
         for (int i = 0; i < numNodes; i++) {
+            // String nodeName =  UUID.randomUUID().toString();
             String nodeName = String.valueOf((char) ('A' + i));
             nodes.add(nodeName);
             addLocation(nodeName);
@@ -56,8 +58,8 @@ public class CityMap {
         }
 
         // Opcional: Verificar el resultado
-        System.out.println("Generated nodes: " + nodes);
-        System.out.println("Generated edges: " + edges);
+        // System.out.println("Generated nodes: " + nodes);
+        // System.out.println("Generated edges: " + edges);
 
         //Generar un archivo DOT para visualizar el grafo
         generateDotFile("graph.dot", nodes, edges);
@@ -78,6 +80,7 @@ public class CityMap {
         DefaultWeightedEdge edge = cityGraph.addEdge(loc1, loc2);
         if (edge != null) { // Evitar duplicados
             cityGraph.setEdgeWeight(edge, distance);
+            // System.out.println(edge + " " + distance);
         }
     }
 
@@ -100,7 +103,7 @@ public class CityMap {
             }
 
             writer.write("}");
-            System.out.println("Graph written to " + fileName);
+            // System.out.println("Graph written to " + fileName);
         } catch (IOException e) {
             System.err.println("Error writing graph to file: " + e.getMessage());
         }
