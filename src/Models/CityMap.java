@@ -22,33 +22,29 @@ public class CityMap {
         List<String> nodes = new ArrayList<>();
         List<String[]> edges = new ArrayList<>();
 
-        // Generar nombres de nodos (A, B, C, ...)
         for (int i = 0; i < numNodes; i++) {
             String nodeName = String.valueOf((char) ('A' + i));
             nodes.add(nodeName);
             addLocation(nodeName);
         }
 
-        // Crear un grafo conectado generando un árbol básico
         for (int i = 1; i < numNodes; i++) {
             String node1 = nodes.get(i - 1);
             String node2 = nodes.get(i);
-            int weight = random.nextInt(100) + 1; // Peso aleatorio entre 1 y 100
+            int weight = random.nextInt(100) + 1; 
             addRoad(node1, node2, weight);
             edges.add(new String[]{node1, node2, String.valueOf(weight)});
         }
 
-        // Agregar aristas adicionales al grafo
         int additionalEdges = numEdges - (numNodes - 1);
         while (additionalEdges > 0) {
             String node1 = nodes.get(random.nextInt(numNodes));
             String node2 = nodes.get(random.nextInt(numNodes));
 
-            // Evitar bucles y duplicados
             if (!node1.equals(node2) && edges.stream().noneMatch(edge ->
                     (edge[0].equals(node1) && edge[1].equals(node2)) || 
                     (edge[0].equals(node2) && edge[1].equals(node1)))) {
-                int weight = random.nextInt(100) + 1; // Peso aleatorio entre 1 y 100
+                int weight = random.nextInt(100) + 1; 
                 addRoad(node1, node2, weight);
                 edges.add(new String[]{node1, node2, String.valueOf(weight)});
                 additionalEdges--;
@@ -57,7 +53,6 @@ public class CityMap {
 
         generateDotFile("graph.dot", nodes, edges);
 
-        // Opcional: Verificar el resultado
         System.out.println("Generated nodes: " + nodes);
         System.out.println("Generated edges: " + edges);
     }
@@ -75,7 +70,7 @@ public class CityMap {
 
     public void addRoad(String loc1, String loc2, double distance) {
         DefaultWeightedEdge edge = cityGraph.addEdge(loc1, loc2);
-        if (edge != null) { // Evitar duplicados
+        if (edge != null) { 
             cityGraph.setEdgeWeight(edge, distance);
         }
     }
@@ -88,12 +83,10 @@ public class CityMap {
     try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
         writer.write("graph G {\n");
 
-        // Agregar nodos
         for (String node : nodes) {
             writer.write("  " + node + ";\n");
         }
 
-        // Agregar aristas con pesos
         for (String[] edge : edges) {
             writer.write("  " + edge[0] + " -- " + edge[1] + " [label=" + edge[2] + "];\n");
         }
