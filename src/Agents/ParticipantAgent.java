@@ -32,7 +32,7 @@ public class ParticipantAgent extends Agent {
         }
 
         // Initialize the city map
-        cityMap = CityMap.getInstance(5, 10);
+        cityMap = CityMap.getInstance(20, 100);
 
         // Store its own location in the map
         agentLocations.put(getLocalName(), location);
